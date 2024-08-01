@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 #define tab "\t"
@@ -57,7 +57,7 @@ public:
 	void print()const
 	{
 		cout << "Head:\t" << Head << endl;
-		Element* Temp = Head;	//Temp - ýòî èòåðàòîð
+		Element* Temp = Head;	//Temp - ÑÑ‚Ð¾ Ð¸Ñ‚ÐµÑ€Ð°Ñ‚Ð¾Ñ€
 		while (Temp)
 		{
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
@@ -71,7 +71,7 @@ void main()
 	setlocale(LC_ALL, "");
 	//Element element(5);
 	int n;
-	cout << "Ââåäèòå êîëè÷åñòâî ýëåìåíòîâ: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð²: "; cin >> n;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
