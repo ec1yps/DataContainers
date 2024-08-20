@@ -49,6 +49,18 @@ public:
 
 		cout << "LCopyConstructor: " << this << endl;
 	}
+	ForwardList(ForwardList&& other)noexcept
+	{
+		/*this->Head = other.Head;
+		this->size = other.size;
+		
+		other.size = 0;
+		other.Head = nullptr;*/
+
+		*this = std::move(other);
+
+		cout << "LMoveConstructor: " << this << endl;
+	}
 	~ForwardList()
 	{
 		while (Head) pop_front();
@@ -68,6 +80,23 @@ public:
 			push_back(Temp->Data);
 
 		cout << "LCopyAssignment: " << this << endl;
+
+		return *this;
+	}
+	ForwardList& operator=(ForwardList&& other)noexcept
+	{
+		if (this == &other) return *this;
+
+		while (Head)
+			pop_front();
+
+		this->Head = other.Head;
+		this->size = other.size;
+
+		other.size = 0;
+		other.Head = nullptr;
+
+		cout << "LMoveAssignment: " << this << endl;
 
 		return *this;
 	}
@@ -213,8 +242,10 @@ void main()
 	cout << "List filled" << endl;
 	list.print();
 
-	ForwardList list2 = list;
-	/*ForwardList list2;
-	list2 = list;*/
+	//ForwardList list2 = list;
+	ForwardList list2 = std::move(list);
+	//ForwardList list2;
+	//list2 = list;
+	//list2 = std::move(list);
 	list2.print();
 }
