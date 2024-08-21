@@ -40,6 +40,14 @@ public:
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
 	}
+	ForwardList(const std::initializer_list<int>& il) :ForwardList()
+	{
+		cout << typeid(il.begin()).name() << endl;
+		for (int const* it = il.begin(); it != il.end(); it++)
+		{
+			push_back(*it);
+		}
+	}
 	ForwardList(const ForwardList& other):ForwardList()
 	{
 		/*for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
@@ -77,7 +85,9 @@ public:
 			pop_front();
 
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
-			push_back(Temp->Data);
+			push_front(Temp->Data);
+
+		reverse();
 
 		cout << "LCopyAssignment: " << this << endl;
 
@@ -179,6 +189,20 @@ public:
 	}
 
 	//	Methods:
+	void reverse()
+	{
+		ForwardList buffer;
+
+		while (Head)
+		{
+			buffer.push_front(Head->Data);
+			pop_front();
+		}
+
+		this->Head = buffer.Head;
+		this->size = buffer.size;
+		buffer.Head = nullptr;
+	}
 	void print()const
 	{
 		cout << "Head:\t" << Head << endl;
@@ -199,6 +223,9 @@ public:
 };
 
 //#define BASE_CHECK
+//#define PERFOMANCE_CHECK
+//#define RANGE_BASED_FOR_ARRAY
+#define RANGE_BASED_FOR_LIST
 
 void main()
 {
@@ -230,6 +257,7 @@ void main()
 	list.print();
 #endif // BASE_CHECK
 
+#ifdef PERFOMANCE_CHECK
 	int n;
 	cout << "Введите количество элементов: "; cin >> n;
 	ForwardList list;
@@ -248,4 +276,35 @@ void main()
 	//list2 = list;
 	//list2 = std::move(list);
 	list2.print();
+#endif // PERFOMANCE_CHECK
+
+
+#ifdef RANGE_BASED_FOR_ARRAY
+	int arr[] = { 3, 5, 8, 13, 21, 34, 55, 89, 144 };
+	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
+	{
+		cout << arr[i] << tab;
+	}
+	cout << endl;
+
+	for (int i : arr)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+
+	Print(arr);
+#endif // RANGE_BASED_FOR_ARRAY
+
+#ifdef RANGE_BASED_FOR_LIST
+	ForwardList list = {3, 5, 8, 13, 21};
+
+	//list.print();
+	
+	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+#endif // RANGE_BASED_FOR_LIST
 }
