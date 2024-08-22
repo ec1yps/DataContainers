@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <list>
 using namespace std;
 using std::cout;
 using std::cin;
@@ -33,6 +34,7 @@ class ForwardList
 {
 	Element* Head;
 	unsigned int size;
+	typedef Element* iterator;
 public:
 	ForwardList()
 	{
@@ -109,6 +111,67 @@ public:
 		cout << "LMoveAssignment: " << this << endl;
 
 		return *this;
+	}
+
+	class Iterator
+	{
+		Element* Iter;
+	public:
+		Iterator(Element* Iter) :Iter(Iter) {}
+		~Iterator() {}
+
+		Iterator operator++()
+		{
+			Iter = Iter->pNext;
+			return *this;
+		}
+		int operator*() const
+		{
+			return Iter->Data;
+		}
+		bool operator!=(const Iterator& other) const
+		{
+			return Iter != other.Iter;
+		}
+	};
+
+	class ConstIterator
+	{
+		Element* ConstIter;
+	public:
+		ConstIterator(Element* ConstIter) :ConstIter(ConstIter) {}
+		~ConstIterator() {}
+
+		ConstIterator operator++()
+		{
+			ConstIter = ConstIter->pNext;
+			return *this;
+		}
+		const int operator*() const
+		{
+			return ConstIter->Data;
+		}
+		bool operator!=(const ConstIterator& other) const
+		{
+			return ConstIter != other.ConstIter;
+		}
+	};
+	
+	Iterator begin()
+	{
+		return Iterator(Head);
+	}
+	Iterator end()
+	{
+		return Iterator(nullptr);
+	}
+	ConstIterator begin() const
+	{
+		return ConstIterator(Head);
+	}
+	ConstIterator end() const
+	{
+		return ConstIterator(nullptr);
 	}
 
 	//	Adding elements:
@@ -221,6 +284,10 @@ public:
 		cout << "Общее количество элементов списка: " << Element::count << endl;
 	}
 };
+std::ostream& operator<<(std::ostream& os, const Element& el)
+{
+	return os << el;
+}
 
 //#define BASE_CHECK
 //#define PERFOMANCE_CHECK
