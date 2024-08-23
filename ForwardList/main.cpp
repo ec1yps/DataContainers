@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <list>
 using namespace std;
 using std::cout;
 using std::cin;
@@ -34,7 +33,6 @@ class ForwardList
 {
 	Element* Head;
 	unsigned int size;
-	typedef Element* iterator;
 public:
 	ForwardList()
 	{
