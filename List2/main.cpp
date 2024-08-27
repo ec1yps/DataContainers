@@ -50,10 +50,7 @@ public:
 		}
 		else
 		{
-			Element* New = new Element(Data);
-
-			New->pNext = Head;
-			Head = Head->pPrev = New;
+			Head = Head->pPrev = new Element(Data, Head);
 		}
 		size++;
 	}
@@ -63,10 +60,7 @@ public:
 			Head = Tail = new Element(Data);
 		else
 		{
-			Element* New = new Element(Data);
-
-			New->pPrev = Tail;
-			Tail = Tail->pNext = New;
+			Tail = Tail->pNext = new Element(Data, nullptr, Tail);
 		}
 		size++;
 	}
