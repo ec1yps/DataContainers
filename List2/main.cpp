@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 using std::cin;
 using std::cout;
@@ -65,10 +65,40 @@ public:
 		else
 		{
 			Element* New = new Element(Data);
+
 			New->pPrev = Tail;
 			Tail->pNext = New;
 			Tail = New;
 		}
+		size++;
+	}
+	void insert(int Data, int index)
+	{
+		if (index < 0 || index > size)return;
+		if (index == 0)return push_front(Data);
+		if (index == size) return push_back(Data);
+
+		Element* Temp = Head;
+
+		if (index <= size / 2)
+		{
+			for (int i = 0; i < index - 1; i++)
+				Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index; i++)
+				Temp = Temp->pPrev;
+		}
+
+		Element* New = new Element(Data);
+
+		New->pNext = Temp->pNext;
+		New->pNext->pPrev = New;
+		Temp->pNext = New;
+		New->pPrev = Temp;
+		
 		size++;
 	}
 
@@ -105,6 +135,32 @@ public:
 		}
 		size--;
 	}
+	void erase(int index)
+	{
+		if (index < 0 || index > size) return;
+		if (index == 0) return pop_front();
+		if (index == size - 1) return pop_back();
+
+		Element* Temp = Head;
+
+		if (index <= size / 2)
+		{
+		for (int i = 0; i < index - 1; i++)
+			Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - index; i++)
+				Temp = Temp->pPrev;
+		}
+
+		Temp->pNext = Temp->pNext->pNext;
+		delete Temp->pNext->pPrev;
+		Temp->pNext->pPrev = Temp;
+
+		size--;
+	}
 
 	//	Methods:
 	void print()
@@ -116,7 +172,7 @@ public:
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 
 		cout << "Tail:\t" << Tail << endl;
-		cout << "Êîëè÷åñòâî ýëåìåíòîâ ñïèñêà: " << size << endl;
+		cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² ÑÐ¿Ð¸ÑÐºÐ°: " << size << endl;
 		cout << delimiter << endl;
 	}
 	void reverse_print()
@@ -129,7 +185,7 @@ public:
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 
 		cout << "Head:\t" << Head << endl;
-		cout << "Êîëè÷åñòâî ýëåìåíòîâ ñïèñêà: " << size << endl;
+		cout << "ÐšÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² ÑÐ¿Ð¸ÑÐºÐ°: " << size << endl;
 
 		cout << delimiter << endl;
 	}
@@ -139,7 +195,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Ââåäèòå êîëè÷åñòâî ýëåìåíòîâ: "; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð²: "; cin >> n;
 	List list;
 	for (int i = 0; i < n; i++)
 	{
@@ -148,4 +204,11 @@ void main()
 	}
 	list.print();
 	list.reverse_print();
+
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð²ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> n;
+	list.insert(123, n);
+	list.print();
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ ÑƒÐ´Ð°Ð»ÑÐµÐ¼Ð¾Ð³Ð¾ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð°: "; cin >> n;
+	list.erase(n);
+	list.print();
 }
