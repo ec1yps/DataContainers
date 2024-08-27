@@ -53,8 +53,7 @@ public:
 			Element* New = new Element(Data);
 
 			New->pNext = Head;
-			Head->pPrev = New;
-			Head = New;
+			Head = Head->pPrev = New;
 		}
 		size++;
 	}
@@ -67,15 +66,14 @@ public:
 			Element* New = new Element(Data);
 
 			New->pPrev = Tail;
-			Tail->pNext = New;
-			Tail = New;
+			Tail = Tail->pNext = New;
 		}
 		size++;
 	}
 	void insert(int Data, int index)
 	{
-		if (index < 0 || index > size)return;
-		if (index == 0)return push_front(Data);
+		if (index < 0 || index > size) return;
+		if (index == 0) return push_front(Data);
 		if (index == size) return push_back(Data);
 
 		Element* Temp = Head;
@@ -92,12 +90,7 @@ public:
 				Temp = Temp->pPrev;
 		}
 
-		Element* New = new Element(Data);
-
-		New->pNext = Temp->pNext;
-		New->pNext->pPrev = New;
-		Temp->pNext = New;
-		New->pPrev = Temp;
+		Temp->pNext = Temp->pNext->pPrev = new Element(Data, Temp->pNext, Temp);
 		
 		size++;
 	}
@@ -166,6 +159,7 @@ public:
 	void print()
 	{
 		cout << delimiter << endl;
+
 		cout << "Head:\t" << Head << endl;
 
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
@@ -173,6 +167,7 @@ public:
 
 		cout << "Tail:\t" << Tail << endl;
 		cout << "Количество элементов списка: " << size << endl;
+
 		cout << delimiter << endl;
 	}
 	void reverse_print()
