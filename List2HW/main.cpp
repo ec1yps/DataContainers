@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 #define tab "\t"
@@ -178,7 +178,7 @@ public:
 			cout << Temp << tab << Temp->pPrev << tab << Temp->Data << tab << Temp->pNext << endl;
 
 		cout << "Tail:\t" << Tail<< endl;
-		cout << "Êîëè÷åñòâî ıëåìåíòîâ ñïèñêà: " << size << endl;
+		cout << "ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ¾Ğ² ÑĞ¿Ğ¸ÑĞºĞ°: " << size << endl;
 	}
 	void reverse_print()
 	{
@@ -188,7 +188,7 @@ public:
 			cout << Temp << tab << Temp->pNext << tab << Temp->Data << tab << Temp->pPrev << endl;
 
 		cout << "Head:\t" << Head << endl;
-		cout << "Êîëè÷åñòâî ıëåìåíòîâ ñïèñêà: " << size << endl;
+		cout << "ĞšĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ¾Ğ² ÑĞ¿Ğ¸ÑĞºĞ°: " << size << endl;
 	}
 };
 
@@ -200,7 +200,7 @@ void main()
 
 #ifdef BASE_CHECK
 	int n;
-	cout << "Ââåäèòå êîëè÷åñòâî ıëåìåíòîâ: "; cin >> n;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ ĞºĞ¾Ğ»Ğ¸Ñ‡ĞµÑÑ‚Ğ²Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ¾Ğ²: "; cin >> n;
 
 	List list;
 
@@ -221,16 +221,16 @@ void main()
 	list.print();
 
 	int index;
-	cout << "Ââåäèòå íîìåğ äîáàâëÿåìîãî ıëåìåíòà ñ ãîëîâû: "; cin >> index;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ÑĞµĞ¼Ğ¾Ğ³Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ° Ñ Ğ³Ğ¾Ğ»Ğ¾Ğ²Ñ‹: "; cin >> index;
 	list.Head_insert(123, index);
 	list.print();
-	cout << "Ââåäèòå íîìåğ óäàëÿåìîãî ıëåìåíòà ñ ãîëîâû: "; cin >> index;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ ÑƒĞ´Ğ°Ğ»ÑĞµĞ¼Ğ¾Ğ³Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ° Ñ Ğ³Ğ¾Ğ»Ğ¾Ğ²Ñ‹: "; cin >> index;
 	list.Head_erase(index);
 	list.print();
-	cout << "Ââåäèòå íîìåğ äîáàâëÿåìîãî ıëåìåíòà ñ õâîñòà: "; cin >> index;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ´Ğ¾Ğ±Ğ°Ğ²Ğ»ÑĞµĞ¼Ğ¾Ğ³Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ° Ñ Ñ…Ğ²Ğ¾ÑÑ‚Ğ°: "; cin >> index;
 	list.Tail_insert(234, index);
 	list.print();
-	cout << "Ââåäèòå íîìåğ óäàëÿåìîãî ıëåìåíòà ñ ãîëîâû: "; cin >> index;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ ÑƒĞ´Ğ°Ğ»ÑĞµĞ¼Ğ¾Ğ³Ğ¾ ÑĞ»ĞµĞ¼ĞµĞ½Ñ‚Ğ° Ñ Ğ³Ğ¾Ğ»Ğ¾Ğ²Ñ‹: "; cin >> index;
 	list.Tail_erase(index);
 	list.print();
 
