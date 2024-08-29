@@ -17,11 +17,15 @@ class List
 	public:
 		Element(int Data, Element* pNext = nullptr, Element* pPrev = nullptr) :Data(Data), pNext(pNext), pPrev(pPrev)
 		{
+#ifdef DEBUG
 			cout << "EConstructor:\t" << this << endl;
+#endif // DEBUG
 		}
 		~Element()
 		{
+#ifdef DEBUG
 			cout << "EDestructor:\t" << this << endl;
+#endif // DEBUG
 		}
 		friend class List;
 	} *Head, *Tail;
@@ -150,6 +154,15 @@ public:
 		return nullptr;
 	}
 
+	Iterator begin() const
+	{
+		return Head;
+	}
+	Iterator end() const
+	{
+		return nullptr;
+	}
+
 	ReverseIterator rbegin()
 	{
 		return Tail;
@@ -171,12 +184,61 @@ public:
 		for (int const* it = il.begin(); it != il.end(); ++it)
 			push_back(*it);
 	}
+	List(const List& other) :List()
+	{
+		*this = other;
+		cout << "LCopyConstructor:\t" << this << endl;
+	}
+	List(List&& other)noexcept
+	{
+		*this = std::move(other);
+
+		cout << "LMoveConstructor:\t" << this << endl;
+	}
 	~List()
 	{
 		//while (Head) pop_front();
 		while (Head) pop_back();
 			
 		cout << "LDestructor:\t" << this << endl;
+	}
+
+	//	Operators:
+	List& operator=(const List& other)
+	{
+		if (this == &other) return *this;
+
+		while (Head)
+			pop_front();
+
+		/*for (Element* Temp = other.Head; Temp; Temp=Temp->pNext)
+			push_back(Temp->Data);*/
+
+		for (int i : other)
+			push_back(i);
+
+		cout << "LCopyAssignment:\t" << this << endl;
+
+		return *this;
+	}
+	List& operator=(List&& other)
+	{
+		if (this == &other) return *this;
+
+		while (Head)
+			pop_front();
+
+		this->Head = other.Head;
+		this->Tail = other.Tail;
+		this->size = other.size;
+
+		other.size = 0;
+		other.Tail = nullptr;
+		other.Head = nullptr;
+
+		cout << "LMoveAssignment:\t" << this << endl;
+
+		return *this;
 	}
 
 	//	Adding elements:
@@ -318,6 +380,18 @@ public:
 	}
 };
 
+List operator+(const List& left, const List& right)
+{
+	cout << "Operator +:\t" << endl;
+
+	List buffer = left;
+	
+	for (int i : right)
+		buffer.push_back(i);
+
+	return buffer;
+}
+
 //#define BASE_CHECK
 
 void main()
@@ -345,10 +419,15 @@ void main()
 #endif // BASE_CHECK
 
 	List list = { 3, 5, 8, 13, 21 };
-	//list.print();
+	List list2 = { 34, 55, 89, 144, 233 };
+
+	List list3;// = std::move(list + list2);
+	list3 = std::move(list + list2);
+
+	list3.print();
 	//list.reverse_print();
 
-	for (int i : list)
+	/*for (int i : list)
 		cout << i << tab; 
 
 	cout << endl;
@@ -356,5 +435,5 @@ void main()
 	for (List::ReverseIterator it = list.rbegin(); it != list.rend(); ++it)
 		cout << *it << tab;
 
-	cout << endl;
+	cout << endl;*/
 }
