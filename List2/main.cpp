@@ -409,6 +409,12 @@ List operator+(const List& left, const List& right)
 	return buffer;
 }
 
+void Grow(List& list)
+{
+	for (List::Iterator it = list.begin(); it != list.end(); ++it)
+		*it *= 10;
+}
+
 //#define BASE_CHECK
 #define ITERATORS_CHECK
 
@@ -444,9 +450,13 @@ void main()
 	list3 = std::move(list + list2);
 
 	list3.print();
+
+	Grow(list3);
+
+	list3.print();
 	//list.reverse_print();
 
-	for (int i : list)
+	/*for (int i : list)
 		cout << i << tab;
 
 	cout << endl;
@@ -454,7 +464,7 @@ void main()
 	for (List::ConstReverseIterator it = list.rbegin(); it != list.rend(); ++it)
 		cout << *it << tab;
 
-	cout << endl;
+	cout << endl;*/
 #endif // ITERATORS_CHECK
 
 }
