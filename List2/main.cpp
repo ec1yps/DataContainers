@@ -54,8 +54,8 @@ class List
 		{
 			return Temp->Data;
 		}
-
 	};
+
 public:
 	class ConstIterator :public ConstBaseIterator
 	{
@@ -90,7 +90,6 @@ public:
 			Temp = Temp->pPrev;
 			return old;
 		}
-
 	};
 
 	class ConstReverseIterator : public ConstBaseIterator
@@ -130,6 +129,30 @@ public:
 		}
 	};
 
+	class Iterator :public ConstIterator
+	{
+	public:
+		Iterator(Element* Temp = nullptr) :ConstIterator(Temp) {}
+		~Iterator() {}
+
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+	};
+
+	class ReverseIterator : public ConstReverseIterator 
+	{
+	public:
+		ReverseIterator(Element* Temp = nullptr) :ConstReverseIterator(Temp) {}
+		~ReverseIterator() {}
+
+		int& operator*()
+		{
+			return Temp->Data;
+		}
+	};
+
 	ConstIterator begin()const
 	{
 		return Head;
@@ -144,6 +167,24 @@ public:
 		return Tail;
 	}
 	ConstReverseIterator rend()const
+	{
+		return nullptr;
+	}
+
+	Iterator begin()
+	{
+		return Head;
+	}
+	Iterator end()
+	{
+		return nullptr;
+	}
+
+	ReverseIterator rbegin()
+	{
+		return Tail;
+	}
+	ReverseIterator rend()
 	{
 		return nullptr;
 	}
