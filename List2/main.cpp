@@ -416,7 +416,8 @@ template<typename T> void Grow(List<T>& list)
 }
 
 //#define BASE_CHECK
-#define ITERATORS_CHECK
+//#define ITERATORS_CHECK
+#define DOUBLE_STRING_CHECK
 
 void main()
 {
@@ -456,7 +457,7 @@ void main()
 	list3.print();
 	//list.reverse_print();
 
-	/*for (int i : list)
+	for (int i : list)
 		cout << i << tab;
 
 	cout << endl;
@@ -464,7 +465,17 @@ void main()
 	for (List::ConstReverseIterator it = list.rbegin(); it != list.rend(); ++it)
 		cout << *it << tab;
 
-	cout << endl;*/
+	cout << endl;
 #endif // ITERATORS_CHECK
+
+#ifdef DOUBLE_STRING_CHECK
+	List<double> list;
+	list = { 1.5, 2.6, 3.7, 4.8, 5.9 };
+	list.print();
+	List<std::string> list2 = { "string", "list" };
+	list2.print();
+	for (int i : list)cout << i << tab; cout << endl;
+	for (std::string i : list2) cout << i << tab; cout << endl;
+#endif // DOUBLE_STRING_CHECK
 
 }
