@@ -57,13 +57,12 @@ void main()
 #endif // ITERATORS_CHECK
 
 #ifdef DOUBLE_STRING_CHECK
-	List<double> list;
-	list = { 1.5, 2.6, 3.7, 4.8, 5.9 };
-	list.print();
-	List<std::string> list2 = { "string", "list" };
-	list2.print();
-	for (int i : list)cout << i << tab; cout << endl;
-	for (std::string i : list2) cout << i << tab; cout << endl;
+	List<double> list = { 1.5, 2.6, 3.7 };
+
+	List<std::string> list_str = { "string", "list" };
+	list_str.print();
+	for (double i : list)cout << i << tab; cout << endl;
+	for (std::string i : list_str) cout << i << tab; cout << endl;
 #endif // DOUBLE_STRING_CHECK
 
 }
