@@ -6,33 +6,31 @@ using std::endl;
 
 #define tab "\t"
 
-class Element
+template<typename T> class ForwardList
 {
-	int Data;
-	Element* pNext;
-	static int count;
-public:
-	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
+	class Element
 	{
+		int Data;
+		Element* pNext;
+		static int count;
+	public:
+		Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
+		{
 #ifdef DEBUG
-		cout << "EConstructor:\t" << this << endl;
+			cout << "EConstructor:\t" << this << endl;
 #endif // DEBUG
-		count++;
-	}
-	~Element()
-	{
+			count++;
+		}
+		~Element()
+		{
 #ifdef DEBUG
-		cout << "EDestructor:\t" << this << endl;
+			cout << "EDestructor:\t" << this << endl;
 #endif // DEBUG
-	}
-	friend class ForwardList;
-};
-int Element::count = 0;
-
-class ForwardList
-{
-	Element* Head;
-	unsigned int size;
+		}
+		friend class ForwardList;
+	} *Head;
+	
+	size_t size;
 public:
 	ForwardList()
 	{
@@ -77,7 +75,7 @@ public:
 	}
 
 	//	Operators:
-	ForwardList& operator=(const ForwardList& other)
+	ForwardList<T>& operator=(const ForwardList<T>& other)
 	{
 		if (this == &other) return *this;
 
@@ -93,7 +91,7 @@ public:
 
 		return *this;
 	}
-	ForwardList& operator=(ForwardList&& other)noexcept
+	ForwardList<T>& operator=(ForwardList<T>&& other)noexcept
 	{
 		if (this == &other) return *this;
 
@@ -252,7 +250,7 @@ public:
 	//	Methods:
 	void reverse()
 	{
-		ForwardList buffer;
+		ForwardList<T> buffer;
 
 		while (Head)
 		{
@@ -282,7 +280,10 @@ public:
 		cout << "Общее количество элементов списка: " << Element::count << endl;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Element& el)
+
+template<typename T> int ForwardList<T>::Element::count = 0;
+
+template<typename T> std::ostream& operator<<(std::ostream& os,  const typename ForwardList<T>::Element& el)
 {
 	return os << el;
 }
@@ -362,7 +363,7 @@ void main()
 #endif // RANGE_BASED_FOR_ARRAY
 
 #ifdef RANGE_BASED_FOR_LIST
-	ForwardList list = {3, 5, 8, 13, 21};
+	ForwardList<int> list = {3, 5, 8, 13, 21};
 
 	//list.print();
 	
