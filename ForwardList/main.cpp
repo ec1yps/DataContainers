@@ -10,14 +10,12 @@ class Element
 {
 	int Data;
 	Element* pNext;
-	static int count;
 public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
 #ifdef DEBUG
 		cout << "EConstructor:\t" << this << endl;
 #endif // DEBUG
-		count++;
 	}
 	~Element()
 	{
@@ -27,7 +25,6 @@ public:
 	}
 	friend class ForwardList;
 };
-int Element::count = 0;
 
 class ForwardList
 {
@@ -48,23 +45,14 @@ public:
 			push_back(*it);
 		}
 	}
-	ForwardList(const ForwardList& other):ForwardList()
+	ForwardList(const ForwardList& other) :ForwardList()
 	{
-		/*for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
-			push_back(Temp->Data);*/
-
 		*this = other;
 
 		cout << "LCopyConstructor: " << this << endl;
 	}
 	ForwardList(ForwardList&& other)noexcept
 	{
-		/*this->Head = other.Head;
-		this->size = other.size;
-		
-		other.size = 0;
-		other.Head = nullptr;*/
-
 		*this = std::move(other);
 
 		cout << "LMoveConstructor: " << this << endl;
@@ -154,7 +142,7 @@ public:
 			return ConstIter != other.ConstIter;
 		}
 	};
-	
+
 	Iterator begin()
 	{
 		return Iterator(Head);
@@ -175,10 +163,6 @@ public:
 	//	Adding elements:
 	void push_front(int Data)
 	{
-		/*Element* New = new Element(Data);
-		New->pNext = Head;
-		Head = New;*/
-
 		Head = new Element(Data, Head);
 
 		size++;
@@ -190,9 +174,6 @@ public:
 		Element* Temp = Head;
 		while (Temp->pNext)
 			Temp = Temp->pNext;
-
-		/*Element* New = new Element(Data);
-		Temp->pNext = New;*/
 
 		Temp->pNext = new Element(Data);
 		size++;
@@ -219,16 +200,12 @@ public:
 	}
 	void insert(int Data, int index)
 	{
-		if (index > Head->count) return;
+		if (index > size) return;
 		if (index == 0) return push_front(Data);
 
 		Element* Temp = Head;
 		for (int i = 0; i < index - 1; i++)
 			Temp = Temp->pNext;
-
-		/*Element* New = new Element(Data);
-		New->pNext = Temp->pNext;
-		Temp->pNext = New;*/
 
 		Temp->pNext = new Element(Data, Temp->pNext);
 		size++;
@@ -268,108 +245,66 @@ public:
 	{
 		cout << "Head:\t" << Head << endl;
 
-		/*Element* Temp = Head;	//Temp - это итератор
-		while (Temp)
-		{
-			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
-			Temp = Temp->pNext;
-		}*/
-
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 
 		cout << "Количество элементов списка: " << size << endl;
-		cout << "Общее количество элементов списка: " << Element::count << endl;
+	}
+
+	friend class Stack;
+};
+
+class Stack
+{
+	ForwardList list;
+public:
+	Stack() {}
+	~Stack()
+	{
+		while (!isEmpty())
+			pop();
+	}
+	void push(int Data)
+	{
+		list.push_front(Data);
+	}
+	void pop()
+	{
+		list.pop_front();
+	}
+	bool isEmpty()const
+	{
+		return list.Head == nullptr;
+	}
+	void peek()const
+	{
+		if (!isEmpty()) return;
+		cout << "Top element: " << list.Head << endl;
+	}
+	void size()const
+	{
+		cout << "Size: " << list.size << endl;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Element& el)
-{
-	return os << el;
-}
-
-//#define BASE_CHECK
-//#define PERFOMANCE_CHECK
-//#define RANGE_BASED_FOR_ARRAY
-#define RANGE_BASED_FOR_LIST
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
-#ifdef BASE_CHECK
-	//Element element(5);
 	int n;
+	Stack st;
+
 	cout << "Введите количество элементов: "; cin >> n;
-	ForwardList list;
+	cout << st.isEmpty() << endl;
 	for (int i = 0; i < n; i++)
 	{
-		//list.push_front(rand() % 100);
-		list.push_back(rand() % 100);
+		st.push(rand() % 100);
 	}
-	list.push_back(123);
-	list.print();
+	st.size();
+	st.peek();
 
-	list.pop_front();
-	list.pop_back();
-	list.print();
-
-	int index;
-	cout << "Введите индекс вставляемого элемента: "; cin >> index;
-	list.insert(234, index);
-	list.print();
-	cout << "Введите индекс удаляемого элемента: "; cin >> index;
-	list.erase(index);
-	list.print();
-#endif // BASE_CHECK
-
-#ifdef PERFOMANCE_CHECK
-	int n;
-	cout << "Введите количество элементов: "; cin >> n;
-	ForwardList list;
-	for (int i = 0; i < n; i++)
-	{
-		//if (i % (1024*1024) == 0) cout << i << tab;
-		list.push_front(rand() % 100);
-		//list.push_back(rand() % 100);
-	}
-	cout << "List filled" << endl;
-	list.print();
-
-	//ForwardList list2 = list;
-	ForwardList list2 = std::move(list);
-	//ForwardList list2;
-	//list2 = list;
-	//list2 = std::move(list);
-	list2.print();
-#endif // PERFOMANCE_CHECK
-
-
-#ifdef RANGE_BASED_FOR_ARRAY
-	int arr[] = { 3, 5, 8, 13, 21, 34, 55, 89, 144 };
-	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
-	{
-		cout << arr[i] << tab;
-	}
-	cout << endl;
-
-	for (int i : arr)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
-
-	Print(arr);
-#endif // RANGE_BASED_FOR_ARRAY
-
-#ifdef RANGE_BASED_FOR_LIST
-	ForwardList list = {3, 5, 8, 13, 21};
-
-	//list.print();
-	
-	for (int i : list)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
-#endif // RANGE_BASED_FOR_LIST
+	st.pop();
+	st.size();
+	st.peek();
+	cout << st.isEmpty() << endl;
 }
