@@ -5,6 +5,7 @@ using std::cin;
 using std::endl;
 
 #define tab "\t"
+#define delimiter "\n------------------------------------------------\n"
 
 class Element
 {
@@ -26,11 +27,13 @@ public:
 #endif // DEBUG
 	}
 	friend class ForwardList;
+	friend class Stack;
 };
 int Element::count = 0;
 
 class ForwardList
 {
+protected:
 	Element* Head;
 	unsigned int size;
 public:
@@ -48,7 +51,7 @@ public:
 			push_back(*it);
 		}
 	}
-	ForwardList(const ForwardList& other):ForwardList()
+	ForwardList(const ForwardList& other) :ForwardList()
 	{
 		/*for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)
 			push_back(Temp->Data);*/
@@ -61,7 +64,7 @@ public:
 	{
 		/*this->Head = other.Head;
 		this->size = other.size;
-		
+
 		other.size = 0;
 		other.Head = nullptr;*/
 
@@ -154,7 +157,7 @@ public:
 			return ConstIter != other.ConstIter;
 		}
 	};
-	
+
 	Iterator begin()
 	{
 		return Iterator(Head);
@@ -282,10 +285,57 @@ public:
 		cout << "Общее количество элементов списка: " << Element::count << endl;
 	}
 };
-std::ostream& operator<<(std::ostream& os, const Element& el)
+
+class Stack :ForwardList
 {
-	return os << el;
-}
+public:
+	const int& top()const
+	{
+		return Head->Data;
+	}
+	int& top()
+	{
+		return Head->Data;
+	}
+
+	int push(int Data)
+	{
+		push_front(Data);
+		return Head->Data;
+	}
+	int pop()
+	{
+		int Data = Head->Data;
+		pop_front();
+		return Data;
+	}
+	int size()const
+	{
+		return ForwardList::size;
+	}
+	bool empty()const
+	{
+		return Head == nullptr;
+	}
+	void swap(Stack& other)
+	{
+		Element* bufferHead = this->Head;
+		this->Head = other.Head;
+		other.Head = bufferHead;
+
+		int bufferSize = this->size();
+		this->ForwardList::size = other.size();
+		other.ForwardList::size = bufferSize;
+	}
+	void info()const
+	{
+		cout << delimiter;
+		cout << this << ":\n";
+		cout << "Size: " << size() << endl;
+		for (int i : *this)cout << i << tab;
+		cout << delimiter;
+	}
+};
 
 //#define BASE_CHECK
 //#define PERFOMANCE_CHECK
@@ -343,7 +393,6 @@ void main()
 	list2.print();
 #endif // PERFOMANCE_CHECK
 
-
 #ifdef RANGE_BASED_FOR_ARRAY
 	int arr[] = { 3, 5, 8, 13, 21, 34, 55, 89, 144 };
 	for (int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++)
@@ -362,14 +411,45 @@ void main()
 #endif // RANGE_BASED_FOR_ARRAY
 
 #ifdef RANGE_BASED_FOR_LIST
-	ForwardList list = {3, 5, 8, 13, 21};
+	ForwardList list = { 3, 5, 8, 13, 21 };
 
 	//list.print();
-	
+
 	for (int i : list)
 	{
 		cout << i << tab;
 	}
 	cout << endl;
 #endif // RANGE_BASED_FOR_LIST
+
+	Stack stack;
+
+	stack.push(3);
+	stack.push(5);
+	stack.push(8);
+	stack.push(13);
+	stack.push(21);
+
+	cout << stack.size() << endl;
+	stack.info();
+
+	//while (!stack.empty())
+	//	cout << stack.pop() << tab;
+	//cout << endl;
+
+	Stack stack2;
+
+	stack2.push(34);
+	stack2.push(55);
+	stack2.push(89);
+
+	stack2.info();
+
+	stack.swap(stack2);
+
+	cout << "Stack: ";
+	stack.info();
+	cout << "Stack2: ";
+	stack2.info();
+
 }
