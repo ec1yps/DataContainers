@@ -416,7 +416,7 @@ void Grow(List& list)
 }
 
 //#define BASE_CHECK
-#define ITERATORS_CHECK
+//#define ITERATORS_CHECK
 
 void main()
 {

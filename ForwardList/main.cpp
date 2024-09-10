@@ -290,7 +290,7 @@ std::ostream& operator<<(std::ostream& os, const Element& el)
 //#define BASE_CHECK
 //#define PERFOMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
-#define RANGE_BASED_FOR_LIST
+//#define RANGE_BASED_FOR_LIST
 
 void main()
 {
