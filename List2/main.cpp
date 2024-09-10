@@ -27,7 +27,9 @@ class List
 			cout << "EDestructor:\t" << this << endl;
 #endif // DEBUG
 		}
+
 		friend class List;
+		friend class Queue;
 	} *Head, *Tail;
 	size_t size;
 
@@ -423,15 +425,15 @@ public:
 	{
 		while (queue.Head)
 		{
-			pop_front();
+			Dequeue();
 		}
 	}
 
-	void push_back(int Data)
+	void Enqueue(int Data)
 	{
 		queue.push_back(Data);
 	}
-	void pop_front()
+	void Dequeue()
 	{
 		queue.pop_front();
 	}
@@ -439,9 +441,17 @@ public:
 	{
 		return queue.Head == nullptr && queue.Tail == nullptr;
 	}
-	void size()const
+	int peek_front()const
 	{
-		cout << "Size: " << queue.size << endl;
+		return queue.Head->Data;
+	}
+	int peek_back()const
+	{
+		return queue.Tail->Data;
+	}
+	size_t size()const
+	{
+		return queue.size;
 	}
 };
 
@@ -449,5 +459,31 @@ void main()
 {
 	setlocale(LC_ALL, "");
 
-	
+	Queue qu;
+
+	cout << qu.isEmpty() << endl;
+
+	int n;
+	cout << "Введите количество элементов: "; cin >> n;
+
+	for (int i = 0; i < n; i++)
+	{
+		qu.Enqueue(rand() % 100);
+		cout << qu.peek_back() << tab;
+	}
+	cout << endl;
+
+	cout << "Size: " << qu.size() << endl;
+	cout << "Top element: " << qu.peek_front() << endl;
+	cout << "Last element: " << qu.peek_back() << endl;
+
+	cout << "\nRemoving element\n" << endl;
+	qu.Dequeue();
+
+	cout << "Size: " << qu.size() << endl;
+	cout << "Top element: " << qu.peek_front() << endl;
+	cout << "Last element: " << qu.peek_back() << endl;
+
+	cout << qu.isEmpty() << endl;
+
 }
