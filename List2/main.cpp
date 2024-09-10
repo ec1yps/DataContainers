@@ -228,9 +228,6 @@ public:
 		while (Head)
 			pop_front();
 
-		/*for (Element* Temp = other.Head; Temp; Temp=Temp->pNext)
-			push_back(Temp->Data);*/
-
 		for (int i : other)
 			push_back(i);
 
@@ -238,7 +235,7 @@ public:
 
 		return *this;
 	}
-	List& operator=(List&& other)
+	List& operator=(List&& other)noexcept
 	{
 		if (this == &other) return *this;
 
@@ -395,6 +392,8 @@ public:
 
 		cout << delimiter << endl;
 	}
+
+	friend class Queue;
 };
 
 List operator+(const List& left, const List& right)
@@ -415,56 +414,40 @@ void Grow(List& list)
 		*it *= 10;
 }
 
-//#define BASE_CHECK
-#define ITERATORS_CHECK
+class Queue
+{
+	List queue;
+public:
+	Queue() {}
+	~Queue() 
+	{
+		while (queue.Head)
+		{
+			pop_front();
+		}
+	}
+
+	void push_back(int Data)
+	{
+		queue.push_back(Data);
+	}
+	void pop_front()
+	{
+		queue.pop_front();
+	}
+	bool isEmpty()const
+	{
+		return queue.Head == nullptr && queue.Tail == nullptr;
+	}
+	void size()const
+	{
+		cout << "Size: " << queue.size << endl;
+	}
+};
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
-#ifdef BASE_CHECK
-	int n;
-	cout << "Введите количество элементов: "; cin >> n;
-	List list;
-	for (int i = 0; i < n; i++)
-	{
-		//list.push_front(rand() % 100);
-		list.push_back(rand() % 100);
-	}
-	list.print();
-	list.reverse_print();
-
-	cout << "Введите номер вставляемого элемента: "; cin >> n;
-	list.insert(123, n);
-	list.print();
-	cout << "Введите номер удаляемого элемента: "; cin >> n;
-	list.erase(n);
-	list.print();
-#endif // BASE_CHECK
-
-#ifdef ITERATORS_CHECK
-	List list = { 3, 5, 8, 13, 21 };
-	List list2 = { 34, 55, 89, 144, 233 };
-
-	List list3;// = std::move(list + list2);
-	list3 = std::move(list + list2);
-
-	list3.print();
-
-	Grow(list3);
-
-	list3.print();
-	//list.reverse_print();
-
-	/*for (int i : list)
-		cout << i << tab;
-
-	cout << endl;
-
-	for (List::ConstReverseIterator it = list.rbegin(); it != list.rend(); ++it)
-		cout << *it << tab;
-
-	cout << endl;*/
-#endif // ITERATORS_CHECK
-
+	
 }
