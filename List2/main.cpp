@@ -421,13 +421,7 @@ class Queue
 	List queue;
 public:
 	Queue() {}
-	~Queue() 
-	{
-		while (queue.Head)
-		{
-			Dequeue();
-		}
-	}
+	~Queue() {}
 
 	void Enqueue(int Data)
 	{
