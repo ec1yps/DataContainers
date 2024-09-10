@@ -23,7 +23,9 @@ public:
 		cout << "EDestructor:\t" << this << endl;
 #endif // DEBUG
 	}
+
 	friend class ForwardList;
+	friend class Stack;
 };
 
 class ForwardList
@@ -276,14 +278,13 @@ public:
 	{
 		return list.Head == nullptr;
 	}
-	void peek()const
+	int peek()const
 	{
-		if (!isEmpty()) return;
-		cout << "Top element: " << list.Head << endl;
+		return list.Head->Data;
 	}
-	void size()const
+	size_t size()const
 	{
-		cout << "Size: " << list.size << endl;
+		return list.size;
 	}
 };
 
@@ -299,12 +300,14 @@ void main()
 	for (int i = 0; i < n; i++)
 	{
 		st.push(rand() % 100);
+		cout << st.peek() << tab;
 	}
-	st.size();
-	st.peek();
+	cout << endl;
+	cout << "Size: " << st.size() << endl;
+	cout << "Top element: " << st.peek() << endl;
 
 	st.pop();
-	st.size();
-	st.peek();
+	cout << "Size: " << st.size() << endl;
+	cout << "Top element: " << st.peek() << endl;
 	cout << st.isEmpty() << endl;
 }
